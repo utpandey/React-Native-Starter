@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 // other imports
 import {NavigationContainer} from '@react-navigation/native';
-
+import ColorPaletteModal from './screens/ColorPaletteModal';
 import React from 'react';
 import {
   SafeAreaView,
@@ -18,21 +18,38 @@ import ColorPalette from './screens/ColorPalette';
 import ColorBox from './components/ColorBox';
 import {createStackNavigator} from '@react-navigation/stack';
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
+const MainStack = createStackNavigator();
+
+const MainStackScreen = () => {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen name="Home" component={Home} />
+      <MainStack.Screen
+        name="ColorPalette"
+        component={ColorPalette}
+        options={({route}) => ({title: route.params.paletteName})}
+      />
+    </MainStack.Navigator>
+  );
+};
 
 const App = () => {
   // console.warn('hiiii CLone here!');
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen
-            name="ColorPalette"
-            component={ColorPalette}
-            options={({route}) => ({title: route.params.paletteName})}
+        <RootStack.Navigator mode="modal">
+          <RootStack.Screen
+            name="Main"
+            component={MainStackScreen}
+            options={{headerShown: false}}
           />
-        </Stack.Navigator>
+          <RootStack.Screen
+            name="ColorPaletteModal"
+            component={ColorPaletteModal}
+          />
+        </RootStack.Navigator>
       </NavigationContainer>
     </>
   );
