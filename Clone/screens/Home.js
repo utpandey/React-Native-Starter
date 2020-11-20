@@ -9,7 +9,7 @@ import {
 import {FlatList} from 'react-native-gesture-handler';
 import PalettePreview from '../components/PalettePreview';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
   const [color, setColor] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const colorHandler = useCallback(async () => {
@@ -22,6 +22,10 @@ const Home = ({navigation}) => {
     }
   });
 
+  const newColorPalette = route.params
+    ? route.params.newColorPalette
+    : undefined;
+
   useEffect(() => {
     colorHandler();
   }, []);
@@ -33,6 +37,12 @@ const Home = ({navigation}) => {
       setColor(false);
     }, 2000);
   }, []);
+
+  useEffect(() => {
+    if (newColorPalette) {
+      setColor((palettes) => [newColorPalette, ...color]);
+    }
+  }, [newColorPalette]);
 
   return (
     <>
@@ -52,9 +62,9 @@ const Home = ({navigation}) => {
         ListHeaderComponent={
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('ColorPaletteModal');
+              navigation.navigate('AddNewPalette');
             }}>
-            <Text>launch Modal</Text>
+            <Text style={styles.modalText}> Add a Color Scheme </Text>
           </TouchableOpacity>
         }
         // refreshControl={
@@ -68,6 +78,12 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   list: {
     padding: 10,
+  },
+  modalText: {
+    paddingBottom: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'blue',
   },
 });
 export default Home;

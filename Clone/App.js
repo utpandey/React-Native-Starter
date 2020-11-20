@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 // other imports
 import {NavigationContainer} from '@react-navigation/native';
-import ColorPaletteModal from './screens/ColorPaletteModal';
+import AddNewPalette from './screens/AddNewPalette';
 import React from 'react';
 import {
   SafeAreaView,
@@ -45,10 +45,7 @@ const App = () => {
             component={MainStackScreen}
             options={{headerShown: false}}
           />
-          <RootStack.Screen
-            name="ColorPaletteModal"
-            component={ColorPaletteModal}
-          />
+          <RootStack.Screen name="AddNewPalette" component={AddNewPalette} />
         </RootStack.Navigator>
       </NavigationContainer>
     </>
